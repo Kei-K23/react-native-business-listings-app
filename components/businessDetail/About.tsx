@@ -2,19 +2,12 @@ import { AppStyle } from "@/constants/AppStyle";
 import React from "react";
 import { Text, View } from "react-native";
 
-export default function About({
-  name,
-  about,
-}: {
-  name: string;
-  about: string;
-}) {
+export default function About({ about }: { about: string }) {
   return (
     <View
       style={{
         paddingHorizontal: AppStyle.mainPadding,
         paddingVertical: 10,
-        height: "100%",
         backgroundColor: "#fff",
       }}
     >

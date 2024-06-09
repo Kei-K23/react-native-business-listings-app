@@ -3,6 +3,13 @@ export type Slider = {
     imageUrl: string;
 }
 
+export type Review = {
+    imageUrl: string;
+    rating: number;
+    review: string;
+    userName: string;
+}
+
 export type Business = {
     id?: string;
     name: string;
@@ -12,4 +19,5 @@ export type Business = {
     phone: string;
     email: string;
     about?: string;
+    reviews?: Review[];
 }

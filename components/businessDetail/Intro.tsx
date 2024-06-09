@@ -1,15 +1,17 @@
 import { AppStyle } from "@/constants/AppStyle";
 import { Business } from "@/types";
 import { FontAwesome } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import React from "react";
-import { Image, View, Text, ScrollView } from "react-native";
+import { Image, View, Text, TouchableOpacity } from "react-native";
 
 type IntroProps = {
   business: Business;
 };
 export default function Intro({ business }: IntroProps) {
+  const router = useRouter();
   return (
-    <ScrollView>
+    <View>
       <View
         style={{
           position: "absolute",
@@ -23,7 +25,9 @@ export default function Intro({ business }: IntroProps) {
           width: "100%",
         }}
       >
-        <FontAwesome name="arrow-circle-left" size={24} color="#454647" />
+        <TouchableOpacity onPress={() => router.back()}>
+          <FontAwesome name="arrow-circle-left" size={24} color="#454647" />
+        </TouchableOpacity>
         <FontAwesome name="heart-o" size={24} color="#454647" />
       </View>
       <Image
@@ -63,6 +67,6 @@ export default function Intro({ business }: IntroProps) {
           {business.address}
         </Text>
       </View>
-    </ScrollView>
+    </View>
   );
 }

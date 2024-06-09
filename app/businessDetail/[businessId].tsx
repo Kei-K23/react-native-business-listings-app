@@ -23,7 +23,7 @@ export default function BusinessDetailById() {
     const docData = await getDoc(docRef);
 
     if (docData.exists()) {
-      setBusiness(docData.data() as Business);
+      setBusiness({ id: docData.id, ...(docData.data() as Business) });
     } else {
       console.error("No such document");
     }

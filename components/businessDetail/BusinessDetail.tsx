@@ -1,9 +1,10 @@
 import { Business } from "@/types";
 import React from "react";
-import { View } from "react-native";
+import { ScrollView, Text } from "react-native";
 import Intro from "./Intro";
 import ActionBtns from "./ActionBtns";
 import About from "./About";
+import Reviews from "./Reviews";
 
 type BusinessDetailProps = {
   business: Business;
@@ -11,7 +12,7 @@ type BusinessDetailProps = {
 
 export default function BusinessDetail({ business }: BusinessDetailProps) {
   return (
-    <View>
+    <ScrollView>
       {/* Intro section */}
       <Intro business={business} />
 
@@ -19,7 +20,10 @@ export default function BusinessDetail({ business }: BusinessDetailProps) {
       <ActionBtns business={business} />
 
       {/* About section */}
-      <About name={business.name} about={business.about!} />
-    </View>
+      <About about={business.about!} />
+
+      {/* Reviews */}
+      <Reviews business={business} />
+    </ScrollView>
   );
 }
