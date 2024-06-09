@@ -6,7 +6,14 @@ import { collection, getDocs, query } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 
-export default function Categories() {
+type CategoriesProps = {
+  isInsideExploreScreen: boolean;
+  onCategoriesSelect: (name: string) => void;
+};
+export default function Categories({
+  isInsideExploreScreen,
+  onCategoriesSelect,
+}: CategoriesProps) {
   const [categories, setCategories] = useState<Slider[]>([]);
   const router = useRouter();
 
@@ -24,7 +31,11 @@ export default function Categories() {
   };
 
   const handleOnPress = (name: string) => {
-    router.push(`/businessLists/${name}`);
+    if (!isInsideExploreScreen) {
+      router.push(`/businessLists/${name}`);
+    } else {
+      onCategoriesSelect(name);
+    }
   };
 
   useEffect(() => {
@@ -34,17 +45,19 @@ export default function Categories() {
   return (
     <View
       style={{
-        padding: AppStyle.mainPadding,
+        padding: isInsideExploreScreen ? 0 : AppStyle.mainPadding,
       }}
     >
-      <Text
-        style={{
-          fontSize: AppStyle.smallTitle,
-          fontWeight: "700",
-        }}
-      >
-        # Categories
-      </Text>
+      {!isInsideExploreScreen && (
+        <Text
+          style={{
+            fontSize: AppStyle.smallTitle,
+            fontWeight: "700",
+          }}
+        >
+          # Categories
+        </Text>
+      )}
       <FlatList
         data={categories}
         horizontal={true}

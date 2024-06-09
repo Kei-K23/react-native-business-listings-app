@@ -7,9 +7,13 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 
 type BusinessListItemProps = {
   item: Business;
+  isInsideExplore: boolean;
 };
 
-export default function BusinessListItem({ item }: BusinessListItemProps) {
+export default function BusinessListItem({
+  item,
+  isInsideExplore,
+}: BusinessListItemProps) {
   const router = useRouter();
 
   const handleOnPress = (id?: string) => {
@@ -24,7 +28,7 @@ export default function BusinessListItem({ item }: BusinessListItemProps) {
         gap: 10,
         backgroundColor: "#fff",
         marginVertical: 20,
-        marginHorizontal: AppStyle.padding,
+        marginHorizontal: isInsideExplore ? 0 : AppStyle.padding,
         borderRadius: 10,
         padding: AppStyle.padding,
       }}
