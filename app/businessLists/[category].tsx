@@ -6,18 +6,25 @@ import { Colors } from "@/constants/Colors";
 import { Business } from "@/types";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, ActivityIndicator } from "react-native";
+import React, { useEffect, useState, useCallback } from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  ActivityIndicator,
+  RefreshControl,
+} from "react-native";
 
 export default function BusinessListsByCategory() {
   const navigation = useNavigation();
   const { category } = useLocalSearchParams<{ category: string }>();
-  const [businesses, seBusinesses] = useState<Business[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>();
+  const [businesses, setBusinesses] = useState<Business[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
   const getBusinesses = async () => {
     setIsLoading(true);
-    seBusinesses([]);
+    setBusinesses([]);
 
     const q = query(
       collection(db, "businesses"),
@@ -26,15 +33,20 @@ export default function BusinessListsByCategory() {
 
     const querySnapshot = await getDocs(q);
 
-    //? Check the type is matching
+    const fetchedBusinesses: Business[] = [];
     querySnapshot.forEach((doc) => {
-      seBusinesses((prev) => [
-        ...prev,
-        { id: doc.id, ...(doc.data() as Business) },
-      ]);
+      fetchedBusinesses.push({ id: doc.id, ...(doc.data() as Business) });
     });
+
+    setBusinesses(fetchedBusinesses);
     setIsLoading(false);
   };
+
+  const onRefresh = useCallback(async () => {
+    setIsRefreshing(true);
+    await getBusinesses();
+    setIsRefreshing(false);
+  }, []);
 
   useEffect(() => {
     navigation.setOptions({
@@ -42,20 +54,23 @@ export default function BusinessListsByCategory() {
       headerTitle: category,
     });
     getBusinesses();
-  }, []);
+  }, [category]);
 
   return (
-    <View>
-      {businesses?.length > 0 && !isLoading ? (
-        <FlatList
-          data={businesses}
-          renderItem={({ item }) => <BusinessListItem item={item} />}
-        />
-      ) : isLoading ? (
+    <View style={{ flex: 1 }}>
+      {isLoading ? (
         <ActivityIndicator
           style={{ marginTop: "50%" }}
           size={"large"}
           color={Colors.primary}
+        />
+      ) : businesses.length > 0 ? (
+        <FlatList
+          data={businesses}
+          renderItem={({ item }) => <BusinessListItem item={item} />}
+          refreshControl={
+            <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+          }
         />
       ) : (
         <Text

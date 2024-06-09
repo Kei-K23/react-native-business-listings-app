@@ -27,11 +27,15 @@ export default function Services() {
   }, []);
 
   return (
-    <View>
+    <View
+      style={{
+        padding: AppStyle.mainPadding,
+      }}
+    >
       <Text
         style={{
           fontSize: AppStyle.smallTitle,
-          padding: 20,
+
           fontWeight: "700",
         }}
       >
@@ -42,8 +46,7 @@ export default function Services() {
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         style={{
-          paddingLeft: AppStyle.mainPadding,
-          paddingRight: AppStyle.padding,
+          marginTop: 7,
         }}
         renderItem={({ item }) => (
           <Image

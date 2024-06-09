@@ -152,7 +152,15 @@ export default function Reviews({ business }: ReviewsProps) {
             </View>
           ))
         ) : (
-          <Text></Text>
+          <Text
+            style={{
+              textAlign: "center",
+              marginTop: 20,
+              fontWeight: "800",
+            }}
+          >
+            No reviews
+          </Text>
         )}
       </View>
     </View>

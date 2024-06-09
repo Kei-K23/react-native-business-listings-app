@@ -32,11 +32,14 @@ export default function Categories() {
   }, []);
 
   return (
-    <View>
+    <View
+      style={{
+        padding: AppStyle.mainPadding,
+      }}
+    >
       <Text
         style={{
           fontSize: AppStyle.smallTitle,
-          padding: 20,
           fontWeight: "700",
         }}
       >
@@ -47,14 +50,13 @@ export default function Categories() {
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         style={{
-          paddingLeft: AppStyle.mainPadding,
-          paddingRight: 20,
+          marginTop: 7,
         }}
         renderItem={({ item }) => (
           <TouchableOpacity
             onPress={() => handleOnPress(item.name)}
             style={{
-              marginRight: 15,
+              marginRight: 10,
             }}
           >
             <Image

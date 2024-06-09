@@ -2,12 +2,18 @@ import { db } from "@/config/firebase";
 import { AppStyle } from "@/constants/AppStyle";
 import { Colors } from "@/constants/Colors";
 import { Business } from "@/types";
+import { useRouter } from "expo-router";
 import { collection, getDocs, query } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 
 export default function BusinessLists() {
   const [businesses, seBusinesses] = useState<Business[]>([]);
+  const router = useRouter();
+
+  const handleOnPress = (id: string) => {
+    router.push(`/businessDetail/${id}`);
+  };
 
   const getBusinesses = async () => {
     seBusinesses([]);
@@ -18,7 +24,10 @@ export default function BusinessLists() {
 
     //? Check the type is matching
     querySnapshot.forEach((doc) => {
-      seBusinesses((prev) => [...prev, doc.data() as Business]);
+      seBusinesses((prev) => [
+        ...prev,
+        { id: doc.id, ...(doc.data() as Business) },
+      ]);
     });
   };
 
@@ -27,11 +36,14 @@ export default function BusinessLists() {
   }, []);
 
   return (
-    <View>
+    <View
+      style={{
+        padding: 20,
+      }}
+    >
       <Text
         style={{
           fontSize: AppStyle.smallTitle,
-          padding: 20,
           fontWeight: "700",
         }}
       >
@@ -42,8 +54,7 @@ export default function BusinessLists() {
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         style={{
-          paddingLeft: AppStyle.mainPadding,
-          paddingRight: 20,
+          marginTop: 7,
         }}
         renderItem={({ item }) => (
           <View
@@ -117,6 +128,7 @@ export default function BusinessLists() {
               </View>
             </View>
             <TouchableOpacity
+              onPress={() => handleOnPress(item.id!)}
               style={{
                 backgroundColor: Colors.primary,
                 paddingHorizontal: 20,
