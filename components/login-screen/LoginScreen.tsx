@@ -1,9 +1,17 @@
 import { useWarmUpBrowser } from "@/hooks/useWarmUpBrowser";
 import React from "react";
-import { View, Text, TouchableHighlight, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TouchableHighlight,
+  StyleSheet,
+  Image,
+} from "react-native";
 import * as WebBrowser from "expo-web-browser";
 import { useOAuth } from "@clerk/clerk-expo";
 import { AppStyle } from "@/constants/AppStyle";
+import { loginScreenImgUrl } from "@/constants/Image";
+import { Colors } from "@/constants/Colors";
 
 WebBrowser.maybeCompleteAuthSession();
 export default function LoginScreen() {
@@ -31,8 +39,53 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <TouchableHighlight onPress={onPress}>
-        <Text>Login with Google</Text>
+      <Image
+        source={{
+          uri: loginScreenImgUrl,
+        }}
+        style={styles.img}
+      />
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          marginTop: -20,
+          backgroundColor: "#fff",
+        }}
+      >
+        <Text
+          style={{
+            fontSize: AppStyle.subTitle,
+            fontWeight: "900",
+            textAlign: "center",
+          }}
+        >
+          Your Ultimate{" "}
+          <Text style={{ color: Colors.primary }}>
+            Community Business Listing App
+          </Text>
+          to grow your business
+        </Text>
+      </View>
+      <View
+        style={{
+          marginTop: 10,
+        }}
+      >
+        <Text style={{ color: "#aaa", fontWeight: "600" }}>
+          Find your business near your and post your own business to community.
+        </Text>
+      </View>
+      <TouchableHighlight onPress={onPress} style={styles.btn}>
+        <Text
+          style={{
+            textAlign: "center",
+            fontSize: AppStyle.bodyText,
+            color: "#fff",
+          }}
+        >
+          Login with Google
+        </Text>
       </TouchableHighlight>
     </View>
   );
@@ -42,7 +95,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
-    padding: AppStyle.padding,
+    paddingHorizontal: 20,
+    paddingTop: 80,
+  },
+  img: {
+    width: 220,
+    height: 450,
+    borderRadius: 20,
+    borderWidth: 3,
+    borderColor: "#000",
+  },
+  btn: {
+    backgroundColor: Colors.primary,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 99,
+    marginTop: 20,
   },
 });
