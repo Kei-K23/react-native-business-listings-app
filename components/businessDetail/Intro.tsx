@@ -2,14 +2,14 @@ import { AppStyle } from "@/constants/AppStyle";
 import { Business } from "@/types";
 import { FontAwesome } from "@expo/vector-icons";
 import React from "react";
-import { Image, View, Text } from "react-native";
+import { Image, View, Text, ScrollView } from "react-native";
 
 type IntroProps = {
   business: Business;
 };
 export default function Intro({ business }: IntroProps) {
   return (
-    <View>
+    <ScrollView>
       <View
         style={{
           position: "absolute",
@@ -60,9 +60,9 @@ export default function Intro({ business }: IntroProps) {
             color: "#454647",
           }}
         >
-          {business.about}
+          {business.address}
         </Text>
       </View>
-    </View>
+    </ScrollView>
   );
 }

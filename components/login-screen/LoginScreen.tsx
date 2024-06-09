@@ -32,12 +32,7 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <Image
-        source={{
-          uri: loginScreenImgUrl,
-        }}
-        style={styles.img}
-      />
+      <Image source={loginScreenImgUrl} style={styles.img} />
       <View
         style={{
           display: "flex",
