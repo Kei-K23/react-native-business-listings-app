@@ -1,12 +1,14 @@
 import { db } from "@/config/firebase";
 import { AppStyle } from "@/constants/AppStyle";
 import { Slider } from "@/types";
+import { useRouter } from "expo-router";
 import { collection, getDocs, query } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 
 export default function Categories() {
   const [categories, setCategories] = useState<Slider[]>([]);
+  const router = useRouter();
 
   const getCategories = async () => {
     setCategories([]);
@@ -19,6 +21,10 @@ export default function Categories() {
     querySnapshot.forEach((doc) => {
       setCategories((prev) => [...prev, doc.data() as Slider]);
     });
+  };
+
+  const handleOnPress = (name: string) => {
+    router.push(`/businessLists/${name}`);
   };
 
   useEffect(() => {
@@ -46,6 +52,7 @@ export default function Categories() {
         }}
         renderItem={({ item }) => (
           <TouchableOpacity
+            onPress={() => handleOnPress(item.name)}
             style={{
               marginRight: 15,
             }}

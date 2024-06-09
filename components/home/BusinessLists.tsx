@@ -9,7 +9,7 @@ import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 export default function BusinessLists() {
   const [businesses, seBusinesses] = useState<Business[]>([]);
 
-  const geBusinesses = async () => {
+  const getBusinesses = async () => {
     seBusinesses([]);
 
     const q = query(collection(db, "businesses"));
@@ -23,7 +23,7 @@ export default function BusinessLists() {
   };
 
   useEffect(() => {
-    geBusinesses();
+    getBusinesses();
   }, []);
 
   return (
