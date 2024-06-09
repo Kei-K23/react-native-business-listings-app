@@ -1,6 +1,7 @@
 import { AppStyle } from "@/constants/AppStyle";
 import { Colors } from "@/constants/Colors";
 import { Business } from "@/types";
+import { useRouter } from "expo-router";
 import React from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 
@@ -9,6 +10,12 @@ type BusinessListItemProps = {
 };
 
 export default function BusinessListItem({ item }: BusinessListItemProps) {
+  const router = useRouter();
+
+  const handleOnPress = (id?: string) => {
+    router.push(`/businessDetail/${id}`);
+  };
+
   return (
     <View
       style={{
@@ -62,6 +69,7 @@ export default function BusinessListItem({ item }: BusinessListItemProps) {
           {item.phone}
         </Text>
         <TouchableOpacity
+          onPress={() => handleOnPress(item.id)}
           style={{
             backgroundColor: Colors.primary,
             paddingHorizontal: 1,

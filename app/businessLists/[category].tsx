@@ -28,7 +28,10 @@ export default function BusinessListsByCategory() {
 
     //? Check the type is matching
     querySnapshot.forEach((doc) => {
-      seBusinesses((prev) => [...prev, doc.data() as Business]);
+      seBusinesses((prev) => [
+        ...prev,
+        { id: doc.id, ...(doc.data() as Business) },
+      ]);
     });
     setIsLoading(false);
   };
