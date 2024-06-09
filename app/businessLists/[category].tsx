@@ -1,4 +1,4 @@
-import BusinessListItem from "@/components/BusinessLists/BusinessListItem";
+import BusinessListItem from "@/components/businessLists/BusinessListItem";
 import { db } from "@/config/firebase";
 import { AppStyle } from "@/constants/AppStyle";
 import { Colors } from "@/constants/Colors";

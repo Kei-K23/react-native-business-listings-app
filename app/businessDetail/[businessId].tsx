@@ -1,3 +1,4 @@
+import BusinessDetail from "@/components/businessDetail/BusinessDetail";
 import { db } from "@/config/firebase";
 import { Colors } from "@/constants/Colors";
 import { Business } from "@/types";
@@ -46,9 +47,13 @@ export default function BusinessDetailById() {
           size={"large"}
           color={Colors.primary}
         />
+      ) : business ? (
+        <View>
+          <BusinessDetail business={business!} />
+        </View>
       ) : (
         <View>
-          <Text>{businessId}</Text>
+          <Text>Error</Text>
         </View>
       )}
     </View>
