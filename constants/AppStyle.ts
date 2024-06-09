@@ -3,5 +3,6 @@ export const AppStyle = {
     mainPadding: 20,
     mainTitle: 28,
     subTitle: 23,
+    smallTitle: 18,
     bodyText: 16
 }
