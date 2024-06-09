@@ -59,7 +59,6 @@ export default function Explore() {
   };
 
   useEffect(() => {
-    console.log("Fetching businesses for category:", category);
     getBusinesses();
   }, [category]);
 
@@ -95,6 +94,9 @@ export default function Explore() {
             refreshControl={
               <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
             }
+            style={{
+              marginTop: 10,
+            }}
           />
         ) : (
           <Text

@@ -1,9 +1,26 @@
+import ProfileIntro from "@/components/profile/ProfileIntro";
+import { AppStyle } from "@/constants/AppStyle";
+import { useUser } from "@clerk/clerk-expo";
 import { Text, View } from "react-native";
 
-export default function profile() {
+export default function Profile() {
+  const { user } = useUser();
+
   return (
-    <View>
-      <Text>Profile</Text>
+    <View style={{ flex: 1, padding: AppStyle.mainPadding, paddingTop: 30 }}>
+      <Text style={{ fontSize: AppStyle.subTitle, fontWeight: "900" }}>
+        Profile
+      </Text>
+
+      {/* Profile intro */}
+      <ProfileIntro
+        imageUrl={user?.imageUrl}
+        name={user?.fullName}
+        email={user?.emailAddresses[0].emailAddress}
+      />
+
+      {/* Actions buttons */}
+      {/* <ActionBtns /> */}
     </View>
   );
 }

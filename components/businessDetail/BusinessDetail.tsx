@@ -1,6 +1,6 @@
 import { Business } from "@/types";
-import React from "react";
-import { ScrollView, Text } from "react-native";
+import React, { useCallback, useState } from "react";
+import { FlatList, View } from "react-native";
 import Intro from "./Intro";
 import ActionBtns from "./ActionBtns";
 import About from "./About";
@@ -10,20 +10,21 @@ type BusinessDetailProps = {
   business: Business;
 };
 
-export default function BusinessDetail({ business }: BusinessDetailProps) {
+const BusinessDetail = ({ business }: BusinessDetailProps) => {
+  const sections = [
+    { key: "intro", render: () => <Intro business={business} /> },
+    { key: "actionBtns", render: () => <ActionBtns business={business} /> },
+    { key: "about", render: () => <About about={business.about!} /> },
+    { key: "reviews", render: () => <Reviews business={business} /> },
+  ];
+
   return (
-    <ScrollView>
-      {/* Intro section */}
-      <Intro business={business} />
-
-      {/* Action btns section */}
-      <ActionBtns business={business} />
-
-      {/* About section */}
-      <About about={business.about!} />
-
-      {/* Reviews */}
-      <Reviews business={business} />
-    </ScrollView>
+    <FlatList
+      data={sections}
+      renderItem={({ item }) => <View>{item.render()}</View>}
+      keyExtractor={(item) => item.key}
+    />
   );
-}
+};
+
+export default BusinessDetail;

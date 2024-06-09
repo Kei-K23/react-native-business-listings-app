@@ -27,7 +27,7 @@ export default function BusinessListItem({
         flexDirection: "row",
         gap: 10,
         backgroundColor: "#fff",
-        marginVertical: 20,
+        marginVertical: 5,
         marginHorizontal: isInsideExplore ? 0 : AppStyle.padding,
         borderRadius: 10,
         padding: AppStyle.padding,
