@@ -1,12 +1,6 @@
 import { useWarmUpBrowser } from "@/hooks/useWarmUpBrowser";
 import React from "react";
-import {
-  View,
-  Text,
-  TouchableHighlight,
-  StyleSheet,
-  Image,
-} from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import * as WebBrowser from "expo-web-browser";
 import { useOAuth } from "@clerk/clerk-expo";
 import { AppStyle } from "@/constants/AppStyle";
@@ -76,7 +70,7 @@ export default function LoginScreen() {
           Find your business near your and post your own business to community.
         </Text>
       </View>
-      <TouchableHighlight onPress={onPress} style={styles.btn}>
+      <TouchableOpacity onPress={onPress} style={styles.btn}>
         <Text
           style={{
             textAlign: "center",
@@ -86,7 +80,7 @@ export default function LoginScreen() {
         >
           Login with Google
         </Text>
-      </TouchableHighlight>
+      </TouchableOpacity>
     </View>
   );
 }
