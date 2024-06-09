@@ -1,11 +1,13 @@
+import BusinessLists from "@/components/home/BusinessLists";
+import Categories from "@/components/home/Categories";
 import Header from "@/components/home/Header";
 import Services from "@/components/home/Services";
-import Categories from "@/components/home/Services copy";
-import { View } from "react-native";
+
+import { ScrollView, View } from "react-native";
 
 export default function home() {
   return (
-    <View>
+    <ScrollView>
       {/* Header */}
       <Header />
 
@@ -14,6 +16,11 @@ export default function home() {
 
       {/* Slider for categories */}
       <Categories />
-    </View>
+
+      {/* Popular business */}
+      <BusinessLists />
+
+      <View style={{ height: 80 }} />
+    </ScrollView>
   );
 }

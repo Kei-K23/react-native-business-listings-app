@@ -1,6 +1,5 @@
 import { db } from "@/config/firebase";
 import { AppStyle } from "@/constants/AppStyle";
-import { Colors } from "@/constants/Colors";
 import { Slider } from "@/types";
 import { collection, getDocs, query } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
@@ -32,7 +31,6 @@ export default function Categories() {
         style={{
           fontSize: AppStyle.smallTitle,
           padding: 20,
-          color: "#fff",
           fontWeight: "700",
         }}
       >
@@ -65,7 +63,6 @@ export default function Categories() {
             />
             <Text
               style={{
-                color: "#fff",
                 fontWeight: "500",
                 textAlign: "center",
                 marginTop: 4,

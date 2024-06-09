@@ -32,7 +32,6 @@ export default function Services() {
         style={{
           fontSize: AppStyle.smallTitle,
           padding: 20,
-          color: "#fff",
           fontWeight: "700",
         }}
       >
