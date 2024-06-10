@@ -53,6 +53,7 @@ export default function BusinessLists() {
         data={businesses}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
         style={{
           marginTop: 7,
         }}

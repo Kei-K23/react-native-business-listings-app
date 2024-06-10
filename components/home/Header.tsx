@@ -2,11 +2,20 @@ import { AppStyle } from "@/constants/AppStyle";
 import { Colors } from "@/constants/Colors";
 import { useUser } from "@clerk/clerk-expo";
 import { FontAwesome } from "@expo/vector-icons";
-import React from "react";
+import { useRouter } from "expo-router";
+import React, { useState } from "react";
 import { Image, StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function Header() {
   const { user } = useUser();
+  const [search, setSearch] = useState<string>("");
+  const router = useRouter();
+
+  const handleOnSubmitEditing = () => {
+    if (!search) return;
+    router.push(`/explore?search=${search}`);
+  };
+
   return (
     <View style={styles.container}>
       <View
@@ -37,6 +46,8 @@ export default function Header() {
           style={{
             flex: 1,
           }}
+          onSubmitEditing={handleOnSubmitEditing}
+          onChangeText={(text) => setSearch(text)}
         />
       </View>
     </View>

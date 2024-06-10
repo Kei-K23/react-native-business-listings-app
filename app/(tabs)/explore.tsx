@@ -5,8 +5,9 @@ import { AppStyle } from "@/constants/AppStyle";
 import { Colors } from "@/constants/Colors";
 import { Business } from "@/types";
 import { FontAwesome } from "@expo/vector-icons";
+import { useLocalSearchParams } from "expo-router";
 import { collection, getDocs, Query, query, where } from "firebase/firestore";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -14,20 +15,18 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  ToastAndroid,
   View,
 } from "react-native";
 
 export default function Explore() {
+  const { search: searchQuery } = useLocalSearchParams<{ search: string }>();
   const [businesses, setBusinesses] = useState<Business[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [category, setCategory] = useState<string>("");
-
-  const onRefresh = useCallback(async () => {
-    setIsRefreshing(true);
-    await getBusinesses();
-    setIsRefreshing(false);
-  }, [category]);
+  const [search, setSearch] = useState<string>(searchQuery ?? "");
+  const searchInputRef = useRef<TextInput | null>(null);
 
   const getBusinesses = async () => {
     setIsLoading(true);
@@ -40,6 +39,8 @@ export default function Explore() {
           collection(db, "businesses"),
           where("category", "==", category)
         );
+      } else if (search) {
+        q = query(collection(db, "businesses"), where("name", "==", search));
       } else {
         q = query(collection(db, "businesses"));
       }
@@ -51,12 +52,23 @@ export default function Explore() {
       });
 
       setBusinesses(fetchedBusinesses);
+      setSearch("");
+      if (searchInputRef?.current) {
+        searchInputRef?.current?.clear();
+      }
     } catch (error) {
-      console.error("Error fetching businesses: ", error);
+      ToastAndroid.show("Error fetching data", ToastAndroid.BOTTOM);
     } finally {
       setIsLoading(false);
     }
   };
+
+  const onRefresh = useCallback(async () => {
+    setIsRefreshing(true);
+    await getBusinesses();
+    setIsRefreshing(false);
+    setCategory("");
+  }, []);
 
   useEffect(() => {
     getBusinesses();
@@ -70,7 +82,13 @@ export default function Explore() {
 
       <View style={{ ...styles.searchContainer, marginBottom: 10 }}>
         <FontAwesome name="search" size={16} color={"#ccc"} />
-        <TextInput placeholder="Search" style={{ flex: 1 }} />
+        <TextInput
+          placeholder="Search"
+          style={{ flex: 1 }}
+          onSubmitEditing={getBusinesses}
+          ref={searchInputRef}
+          onChangeText={(text) => setSearch(text)}
+        />
       </View>
 
       <Categories
@@ -86,18 +104,25 @@ export default function Explore() {
             color={Colors.primary}
           />
         ) : businesses.length > 0 ? (
-          <FlatList
-            data={businesses}
-            renderItem={({ item }) => (
-              <BusinessListItem item={item} isInsideExplore={true} />
-            )}
-            refreshControl={
-              <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
-            }
-            style={{
-              marginTop: 10,
-            }}
-          />
+          <>
+            <FlatList
+              data={businesses}
+              showsVerticalScrollIndicator={false}
+              renderItem={({ item }) => (
+                <BusinessListItem item={item} isInsideExplore={true} />
+              )}
+              refreshControl={
+                <RefreshControl
+                  refreshing={isRefreshing}
+                  onRefresh={onRefresh}
+                />
+              }
+              style={{
+                marginTop: 10,
+                marginBottom: 50,
+              }}
+            />
+          </>
         ) : (
           <Text
             style={{

@@ -1,5 +1,6 @@
 import { db } from "@/config/firebase";
 import { AppStyle } from "@/constants/AppStyle";
+import { Colors } from "@/constants/Colors";
 import { Slider } from "@/types";
 import { useRouter } from "expo-router";
 import { collection, getDocs, query } from "firebase/firestore";
@@ -15,6 +16,7 @@ export default function Categories({
   onCategoriesSelect,
 }: CategoriesProps) {
   const [categories, setCategories] = useState<Slider[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
   const router = useRouter();
 
   const getCategories = async () => {
@@ -34,12 +36,16 @@ export default function Categories({
     if (!isInsideExploreScreen) {
       router.push(`/businessLists/${name}`);
     } else {
+      setSelectedCategory(name);
       onCategoriesSelect?.(name);
     }
   };
 
   useEffect(() => {
     getCategories();
+    return () => {
+      setSelectedCategory("");
+    };
   }, []);
 
   return (
@@ -81,6 +87,9 @@ export default function Categories({
                 height: 50,
                 borderRadius: 10,
                 backgroundColor: "#6693fa",
+                borderWidth: 2,
+                borderColor:
+                  selectedCategory === item.name ? Colors.primary : "#ccc",
               }}
             />
             <Text
@@ -88,6 +97,7 @@ export default function Categories({
                 fontWeight: "500",
                 textAlign: "center",
                 marginTop: 4,
+                color: selectedCategory === item.name ? Colors.primary : "#000",
               }}
             >
               {item?.name}
