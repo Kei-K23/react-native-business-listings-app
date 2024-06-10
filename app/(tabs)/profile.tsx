@@ -21,7 +21,7 @@ export default function Profile() {
       />
 
       {/* Actions buttons */}
-      <ActionBtns />
+      <ActionBtns userId={user?.id} />
 
       <Text
         style={{

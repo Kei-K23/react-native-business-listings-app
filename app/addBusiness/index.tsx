@@ -18,8 +18,10 @@ import { SelectCategory } from "@/types";
 import { addDoc, collection, getDocs, query } from "firebase/firestore";
 import { db, storeDb } from "@/config/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { useUser } from "@clerk/clerk-expo";
 
 export default function Page() {
+  const { user } = useUser();
   const navigation = useNavigation();
   const router = useRouter();
   const [imageUrl, setImageUrl] = useState<string>();
@@ -91,6 +93,7 @@ export default function Page() {
         category,
         about,
         imageUrl: downloadUrl,
+        userId: user?.id,
       });
       ToastAndroid.show("Successfully created business", ToastAndroid.BOTTOM);
       router.push("/(tabs)/profile");

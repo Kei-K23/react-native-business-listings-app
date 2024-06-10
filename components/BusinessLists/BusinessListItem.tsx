@@ -65,7 +65,6 @@ export default function BusinessListItem({
         </Text>
         <Text
           style={{
-            width: "65%",
             fontSize: 14,
             marginTop: 4,
           }}
@@ -80,7 +79,7 @@ export default function BusinessListItem({
             paddingVertical: 4,
             borderRadius: 99,
             marginTop: 10,
-            width: "30%",
+            width: 80,
           }}
         >
           <Text

@@ -9,7 +9,10 @@ import { useRouter } from "expo-router";
 import React from "react";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 
-export default function ActionBtns() {
+type ActionBtnsProps = {
+  userId?: string;
+};
+export default function ActionBtns({ userId }: ActionBtnsProps) {
   const router = useRouter();
   const menuList = [
     {
@@ -22,7 +25,7 @@ export default function ActionBtns() {
       id: 2,
       name: "My Business",
       imageUrl: myBusinessUrl,
-      path: "",
+      path: `/myBusiness/${userId}`,
     },
     {
       id: 3,
