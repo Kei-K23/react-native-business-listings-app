@@ -1,3 +1,4 @@
+import ActionBtns from "@/components/profile/ActionBtns";
 import ProfileIntro from "@/components/profile/ProfileIntro";
 import { AppStyle } from "@/constants/AppStyle";
 import { useUser } from "@clerk/clerk-expo";
@@ -20,7 +21,17 @@ export default function Profile() {
       />
 
       {/* Actions buttons */}
-      {/* <ActionBtns /> */}
+      <ActionBtns />
+
+      <Text
+        style={{
+          marginTop: 20,
+          fontSize: AppStyle.bodyText,
+          textAlign: "center",
+        }}
+      >
+        Developed with 💙 by Arkar Min (Kei-K)
+      </Text>
     </View>
   );
 }
