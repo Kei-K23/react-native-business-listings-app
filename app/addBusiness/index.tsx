@@ -1,10 +1,11 @@
-import { useNavigation } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
   Image,
   StyleSheet,
   Text,
   TextInput,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -14,12 +15,20 @@ import { AppStyle } from "@/constants/AppStyle";
 import { Colors } from "@/constants/Colors";
 import RNPickerSelect from "react-native-picker-select";
 import { SelectCategory } from "@/types";
-import { collection, getDocs, query } from "firebase/firestore";
-import { db } from "@/config/firebase";
+import { addDoc, collection, getDocs, query } from "firebase/firestore";
+import { db, storeDb } from "@/config/firebase";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 export default function Page() {
   const navigation = useNavigation();
-  const [image, setImage] = useState<string>();
+  const router = useRouter();
+  const [imageUrl, setImageUrl] = useState<string>();
+  const [name, setName] = useState<string>();
+  const [address, setAddress] = useState<string>();
+  const [email, setEmail] = useState<string>();
+  const [category, setCategory] = useState<string>();
+  const [phone, setPhone] = useState<string>();
+  const [about, setAbout] = useState<string>();
   const [categories, setCategories] = useState<SelectCategory[]>([]);
   const [loadingForCategory, setLoadingForCategory] = useState<boolean>();
 
@@ -50,7 +59,43 @@ export default function Page() {
     });
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      setImageUrl(result.assets[0].uri);
+    }
+  };
+
+  const handleOnPress = async () => {
+    const name = Date.now().toString() + ".jpg";
+    const resp = await fetch(imageUrl!);
+    const blob = await resp.blob();
+
+    const imageUrlRef = ref(storeDb, "business-listing-app/" + name);
+
+    uploadBytes(imageUrlRef, blob)
+      .then((snapShort) => {
+        console.log("Uploaded...");
+      })
+      .then((resp) => {
+        getDownloadURL(imageUrlRef).then((downloadUrl) => {
+          handleSaveBusiness(downloadUrl);
+        });
+      });
+  };
+
+  const handleSaveBusiness = async (downloadUrl: string) => {
+    try {
+      await addDoc(collection(db, "businesses"), {
+        name,
+        email,
+        phone,
+        address,
+        category,
+        about,
+        imageUrl: downloadUrl,
+      });
+      ToastAndroid.show("Successfully created business", ToastAndroid.BOTTOM);
+      router.push("/(tabs)/profile");
+    } catch (e) {
+      ToastAndroid.show("Something went wrong", ToastAndroid.BOTTOM);
     }
   };
 
@@ -86,8 +131,8 @@ export default function Page() {
         <Text>Fill all the information to create your business</Text>
       </View>
       <TouchableOpacity onPress={pickImage}>
-        {image ? (
-          <Image source={{ uri: image }} style={styles.image} />
+        {imageUrl ? (
+          <Image source={{ uri: imageUrl }} style={styles.image} />
         ) : (
           <Image source={imagePickerImageUrl} style={styles.image} />
         )}
@@ -98,12 +143,28 @@ export default function Page() {
           gap: 12,
         }}
       >
-        <TextInput placeholder="Name" style={styles.inputText} />
-        <TextInput placeholder="Address" style={styles.inputText} />
-        <TextInput placeholder="Phone" style={styles.inputText} />
-        <TextInput placeholder="Email" style={styles.inputText} />
+        <TextInput
+          placeholder="Name"
+          style={styles.inputText}
+          onChangeText={(text) => setName(text)}
+        />
         <TextInput
           placeholder="Address"
+          style={styles.inputText}
+          onChangeText={(text) => setAddress(text)}
+        />
+        <TextInput
+          placeholder="Phone"
+          style={styles.inputText}
+          onChangeText={(text) => setPhone(text)}
+        />
+        <TextInput
+          placeholder="Email"
+          style={styles.inputText}
+          onChangeText={(text) => setEmail(text)}
+        />
+        <TextInput
+          placeholder="About"
           numberOfLines={4}
           style={{
             borderWidth: 2,
@@ -112,13 +173,14 @@ export default function Page() {
             borderColor: Colors.primary,
             textAlignVertical: "top",
           }}
+          onChangeText={(text) => setAbout(text)}
         />
         <RNPickerSelect
           disabled={loadingForCategory}
-          onValueChange={(value) => console.log(value)}
+          onValueChange={(value) => setCategory(value)}
           items={categories}
         />
-        <TouchableOpacity onPress={() => {}} style={styles.btn}>
+        <TouchableOpacity onPress={handleOnPress} style={styles.btn}>
           <Text
             style={{
               textAlign: "center",

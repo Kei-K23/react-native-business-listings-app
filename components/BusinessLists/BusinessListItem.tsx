@@ -7,7 +7,7 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 
 type BusinessListItemProps = {
   item: Business;
-  isInsideExplore: boolean;
+  isInsideExplore?: boolean;
 };
 
 export default function BusinessListItem({
