@@ -7,8 +7,8 @@ import React, { useEffect, useState } from "react";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 
 type CategoriesProps = {
-  isInsideExploreScreen: boolean;
-  onCategoriesSelect: (name: string) => void;
+  isInsideExploreScreen?: boolean;
+  onCategoriesSelect?: (name: string) => void;
 };
 export default function Categories({
   isInsideExploreScreen,
@@ -34,7 +34,7 @@ export default function Categories({
     if (!isInsideExploreScreen) {
       router.push(`/businessLists/${name}`);
     } else {
-      onCategoriesSelect(name);
+      onCategoriesSelect?.(name);
     }
   };
 

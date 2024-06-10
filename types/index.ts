@@ -3,6 +3,11 @@ export type Slider = {
     imageUrl: string;
 }
 
+export type SelectCategory = {
+    label: string;
+    value: string;
+}
+
 export type Review = {
     imageUrl: string;
     rating: number;

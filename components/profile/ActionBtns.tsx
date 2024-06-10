@@ -5,16 +5,18 @@ import {
   myBusinessUrl,
   shareImageUrl,
 } from "@/constants/Image";
+import { useRouter } from "expo-router";
 import React from "react";
-import { FlatList, Image, Text, View } from "react-native";
+import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 
 export default function ActionBtns() {
+  const router = useRouter();
   const menuList = [
     {
       id: 1,
       name: "Add Business",
       imageUrl: addImageUrl,
-      path: "",
+      path: "/addBusiness",
     },
     {
       id: 2,
@@ -35,6 +37,13 @@ export default function ActionBtns() {
       path: "",
     },
   ];
+
+  const handleOnPress = (path: string) => {
+    if (path) {
+      router.push(path);
+    }
+  };
+
   return (
     <View
       style={{
@@ -45,7 +54,7 @@ export default function ActionBtns() {
         numColumns={2}
         data={menuList}
         renderItem={({ item, index }) => (
-          <View
+          <TouchableOpacity
             key={index}
             style={{
               margin: 10,
@@ -60,6 +69,7 @@ export default function ActionBtns() {
               flex: 1,
               backgroundColor: "#fff",
             }}
+            onPress={() => handleOnPress(item.path)}
           >
             <Image
               source={item.imageUrl}
@@ -77,7 +87,7 @@ export default function ActionBtns() {
             >
               {item.name}
             </Text>
-          </View>
+          </TouchableOpacity>
         )}
       />
     </View>
