@@ -20,19 +20,19 @@ export default function ActionBtns({ business }: ActionBtnsProps) {
     {
       id: 1,
       name: "Call",
-      icon: require("./../../assets/images/call.png"),
+      icon: require("../../assets/images/call.png"),
       url: `tel:${business.phone}`,
     },
     {
       id: 2,
       name: "Email",
-      icon: require("./../../assets/images/email.png"),
+      icon: require("../../assets/images/email.png"),
       url: `mailto:${business.email}`,
     },
     {
       id: 3,
       name: "Share",
-      icon: require("./../../assets/images/share_1.png"),
+      icon: require("../../assets/images/share_1.png"),
       url: "", // This will be handled separately in the onPress function
     },
   ];

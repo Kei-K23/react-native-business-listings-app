@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "business-listing-app",
+    "name": "Business listing App",
     "slug": "business-listing-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -20,7 +20,10 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.keik23.businesslistingapp"
+      "package": "com.keik23.businesslistingapp",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -34,10 +37,19 @@
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
-      ]
+      ],
+      "expo-asset"
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "20cad8fb-fc7e-44e0-b3c3-d901af1905f2"
+      }
     }
   }
 }
